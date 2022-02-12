@@ -1,11 +1,17 @@
 import React from 'react'
 import './App.css'
-import Address from './pages/Address'
+import AddClient from './view/AddClient'
+import Address from './view/Address'
+import DeleteClient from './view/DeleteClient'
 
 function App() {
   return (
     <div className="App">
       <Address />
+      <div className='container'>
+        <AddClient />
+        <DeleteClient />
+      </div>
     </div>
   )
 }

@@ -7,40 +7,46 @@ import { useDispatch, useSelector } from 'react-redux'
 import { getApiData } from '../../api/getApiData'
 import {
   setApartamentAction,
-  setSelectApartamentAction,
+  setApartamentNumAction,
+  setSelectApartamentIdAction,
 } from '../../redux/actions/apartamentAction'
 
 const SelectApartament = () => {
-  const { selectStreet } = useSelector((state) => state.street)
-  const { selectHouse } = useSelector((state) => state.house)
-  const { apartaments, selectApartament } = useSelector(
+  const { selectStreetId } = useSelector((state) => state.street)
+  const { selectHouseId } = useSelector((state) => state.house)
+  const { apartaments, selectApartamentId } = useSelector(
     (state) => state.apartament
   )
 
   const dispatch = useDispatch()
 
   useEffect(() => {
-    if (selectHouse) {
-      getApiData(`/Request/house_flats/`, selectHouse).then((apartament) => {
+    if (selectHouseId) {
+      getApiData(`/Request/house_flats/`, selectHouseId).then((apartament) => {
         dispatch(setApartamentAction(apartament))
       })
     }
-  }, [selectHouse])
+  }, [selectHouseId])
 
   useEffect(() => {
     dispatch(setApartamentAction([]))
-    dispatch(setSelectApartamentAction(''))
-  }, [selectStreet, selectHouse])
+    dispatch(setSelectApartamentIdAction(''))
+  }, [selectStreetId, selectHouseId])
 
   const handleSelectApartament = (apartament) => {
-    dispatch(setSelectApartamentAction(apartament.target.value))
+    dispatch(setSelectApartamentIdAction(apartament.target.value))
+    apartaments.forEach((num) => {
+      if (num.id === apartament.target.value) {
+        dispatch(setApartamentNumAction(num.name))
+      }
+    })
   }
 
   return (
     <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
       <InputLabel>Кв./офис</InputLabel>
       <Select
-        value={selectApartament}
+        value={selectApartamentId}
         label="Кв./офис"
         onChange={handleSelectApartament}
       >

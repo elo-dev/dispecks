@@ -6,34 +6,40 @@ import FormControl from '@mui/material/FormControl'
 import Select from '@mui/material/Select'
 import {
   setHouseAction,
-  setSelectHouseAction,
+  setSelectHouseIdAction,
+  setSelectHouseNumAction,
 } from '../../redux/actions/houseAction'
 import { getApiData } from '../../api/getApiData'
 
 const SelectHouse = () => {
   const dispatch = useDispatch()
-  const { house, selectHouse } = useSelector((state) => state.house)
-  const { selectStreet } = useSelector((state) => state.street)
+  const { house, selectHouseId } = useSelector((state) => state.house)
+  const { selectStreetId } = useSelector((state) => state.street)
 
   useEffect(() => {
     dispatch(setHouseAction([]))
-    dispatch(setSelectHouseAction(''))
-    
-    if (selectStreet) {
-      getApiData('/Request/houses/', selectStreet?.id).then((house) => {
+    dispatch(setSelectHouseIdAction(''))
+
+    if (selectStreetId) {
+      getApiData('/Request/houses/', selectStreetId?.id).then((house) => {
         dispatch(setHouseAction(house))
       })
     }
-  }, [selectStreet])
+  }, [selectStreetId])
 
   const handleChange = (numHouse) => {
-    dispatch(setSelectHouseAction(numHouse.target.value))
+    dispatch(setSelectHouseIdAction(numHouse.target.value))
+    house.forEach((num) => {
+      if (num.id === numHouse.target.value) {
+        dispatch(setSelectHouseNumAction(num.name))
+      }
+    })
   }
 
   return (
     <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
       <InputLabel>Дом</InputLabel>
-      <Select value={selectHouse} label="Кв./офис" onChange={handleChange}>
+      <Select value={selectHouseId} label="Кв./офис" onChange={handleChange}>
         {house.map((num) => (
           <MenuItem key={num.id} value={num.id}>
             {num.name}
