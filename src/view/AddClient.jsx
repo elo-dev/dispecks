@@ -6,7 +6,10 @@ import Stack from '@mui/material/Stack'
 import { useDispatch, useSelector } from 'react-redux'
 import ModalWindow from '../components/Modal/Modal'
 import { clientApi } from '../api/clientApi'
-import { setClientIdAction } from '../redux/actions/clientAction'
+import {
+  setClientIdAction,
+  setClientPhoneNumAction,
+} from '../redux/actions/clientAction'
 
 const AddClient = () => {
   const [open, setOpen] = useState(false)
@@ -52,6 +55,8 @@ const AddClient = () => {
         AddressId: 212,
         ClientId: id,
       })
+
+      dispatch(setClientPhoneNumAction(phoneNum))
     }
   }
 

@@ -17,8 +17,6 @@ const DeleteClient = () => {
     setPhoneNum(e.target.value)
   }
 
-  console.log(clientId)
-
   const handleSubmit = async (e) => {
     e.preventDefault()
     if (phoneNum) {
